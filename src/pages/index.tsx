@@ -29,19 +29,18 @@ const Home: NextPage = () => {
         setName(user.displayName);
       }
     });
-  }, [auth]);
-
-  const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    (event) => {
-      event.preventDefault();
-      signInWithRedirect(auth, provider);
-    },
-    [auth, provider]
-  );
+  }, []);
 
   return (
     <div>
-      <button onClick={handleClick}>Login</button>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>((event) => {
+          event.preventDefault();
+          signInWithRedirect(auth, provider);
+        }, [])}
+      >
+        Login
+      </button>
       <p>{name}</p>
     </div>
   );
