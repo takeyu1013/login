@@ -1,5 +1,12 @@
 import type { NextPage } from "next";
-import { MouseEventHandler, useCallback, useEffect, useState } from "react";
+import {
+  FC,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -10,31 +17,33 @@ import {
 import { app } from "../firebase";
 
 const Home: NextPage = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const { auth, provider } = useMemo(() => {
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    return { auth, provider };
+  }, []);
+  const [name, setName] = useState<User["displayName"]>(null);
 
   useEffect(() => {
-    const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setName(user.displayName);
       }
     });
-  }, []);
+  }, [auth]);
 
   const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => {
       event.preventDefault();
-
-      const provider = new GoogleAuthProvider();
-      const auth = getAuth(app);
       signInWithRedirect(auth, provider);
     },
-    []
+    [auth, provider]
   );
+
   return (
     <div>
       <button onClick={handleClick}>Login</button>
-      <p>{user && user.displayName}</p>
+      <p>{name}</p>
     </div>
   );
 };
