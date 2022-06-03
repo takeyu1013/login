@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithRedirect,
+  signOut,
   User,
 } from "firebase/auth";
 import { app } from "../firebase";
@@ -42,6 +43,20 @@ const Home: NextPage = () => {
         Login
       </button>
       <p>{name}</p>
+      <button
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>((event) => {
+          event.preventDefault();
+          signOut(auth).then(() => {
+            onAuthStateChanged(auth, (user) => {
+              if (!user) {
+                setName(null);
+              }
+            });
+          });
+        }, [])}
+      >
+        Logout
+      </button>
     </div>
   );
 };
