@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import {
-  FC,
   MouseEventHandler,
   useCallback,
   useEffect,
