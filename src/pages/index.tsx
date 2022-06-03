@@ -18,9 +18,7 @@ import { app } from "../firebase";
 
 const Home: NextPage = () => {
   const { auth, provider } = useMemo(() => {
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    return { auth, provider };
+    return { auth: getAuth(app), provider: new GoogleAuthProvider() };
   }, []);
   const [name, setName] = useState<User["displayName"]>(null);
 
