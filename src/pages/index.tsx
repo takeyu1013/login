@@ -21,34 +21,32 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setName(user.displayName);
-      }
+      setName(user ? user.displayName : null);
     });
-  }, []);
+  }, [auth]);
 
   return (
     <div>
       <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>((event) => {
-          event.preventDefault();
-          signInWithRedirect(auth, provider);
-        }, [])}
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => {
+            event.preventDefault();
+            signInWithRedirect(auth, provider);
+          },
+          [auth, provider]
+        )}
       >
         Login
       </button>
       <p>{name}</p>
       <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>((event) => {
-          event.preventDefault();
-          signOut(auth).then(() => {
-            onAuthStateChanged(auth, (user) => {
-              if (!user) {
-                setName(null);
-              }
-            });
-          });
-        }, [])}
+        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
+          (event) => {
+            event.preventDefault();
+            signOut(auth);
+          },
+          [auth]
+        )}
       >
         Logout
       </button>
