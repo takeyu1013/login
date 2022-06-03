@@ -1,19 +1,16 @@
 import type { NextPage } from "next";
-import {
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import type { MouseEventHandler } from "react";
+import type { User } from "firebase/auth";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithRedirect,
   signOut,
-  User,
 } from "firebase/auth";
+
 import { app } from "../firebase";
 
 const Home: NextPage = () => {
