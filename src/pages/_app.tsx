@@ -2,7 +2,7 @@ import type { Auth, User } from "firebase/auth";
 import type { AppProps } from "next/app";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { app } from "../firebase";
 
@@ -13,7 +13,7 @@ const CONTEXT: {
 
 export const AuthContext = createContext(CONTEXT);
 
-const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   const { auth } = CONTEXT;
   const [name, setName] = useState(CONTEXT.name);
 
@@ -25,16 +25,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ auth, name }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-const App = ({ Component, pageProps }: AppProps) => {
-  return (
-    <AuthProvider>
       <Component {...pageProps} />
-    </AuthProvider>
+    </AuthContext.Provider>
   );
 };
 
