@@ -6,10 +6,10 @@ import { createContext, useEffect, useState } from "react";
 
 import { app } from "../firebase";
 
-const CONTEXT: {
+const CONTEXT: Readonly<{
   auth: Auth;
   name: User["displayName"];
-} = { auth: getAuth(app), name: null } as const;
+}> = { auth: getAuth(app), name: null } as const;
 
 export const AuthContext = createContext(CONTEXT);
 
