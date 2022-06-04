@@ -7,10 +7,10 @@ import { supabase } from "../utils/supabaseClient";
 
 const Home: NextPage = () => {
   const auth = supabase.auth;
-  const [name, setName] = useState<User["email"]>(undefined);
+  const [email, setEmail] = useState<User["email"]>(undefined);
   useEffect(() => {
     auth.onAuthStateChange((_event, session) => {
-      setName(session && session.user ? session.user.email : undefined);
+      setEmail(session && session.user ? session.user.email : undefined);
     });
   });
   const login: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <button onClick={login}>Login</button>
-      <p>{name}</p>
+      <p>{email}</p>
     </div>
   );
 };
