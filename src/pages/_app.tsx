@@ -9,22 +9,26 @@ import { app } from "../firebase";
 const CONTEXT: Readonly<{
   auth: Auth;
   name: User["displayName"];
-}> = { auth: getAuth(app), name: null } as const;
+  isLoading: boolean;
+}> = { auth: getAuth(app), name: null, isLoading: false } as const;
 
 export const AuthContext = createContext(CONTEXT);
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { auth } = CONTEXT;
   const [name, setName] = useState(CONTEXT.name);
+  const [isLoading, setIsLoading] = useState(CONTEXT.isLoading);
 
   useEffect(() => {
+    setIsLoading(true);
     onAuthStateChanged(auth, (user) => {
       setName(user ? user.displayName : null);
+      setIsLoading(false);
     });
   }, [auth]);
 
   return (
-    <AuthContext.Provider value={{ auth, name }}>
+    <AuthContext.Provider value={{ auth, name, isLoading }}>
       <Component {...pageProps} />
     </AuthContext.Provider>
   );

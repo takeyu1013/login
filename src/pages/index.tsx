@@ -6,34 +6,31 @@ import { GoogleAuthProvider, signInWithRedirect, signOut } from "firebase/auth";
 import { AuthContext } from "./_app";
 
 const Home: NextPage = () => {
-  const { auth, name } = useContext(AuthContext);
+  const { auth, name, isLoading } = useContext(AuthContext);
   const provider = useMemo(() => new GoogleAuthProvider(), []);
+  const Login = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => {
+      event.preventDefault();
+      signInWithRedirect(auth, provider);
+    },
+    [auth, provider]
+  );
+  const Logout = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    (event) => {
+      event.preventDefault();
+      signOut(auth);
+    },
+    [auth]
+  );
 
   return (
     <div>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => {
-            event.preventDefault();
-            signInWithRedirect(auth, provider);
-          },
-          [auth, provider]
-        )}
-      >
-        Login
-      </button>
-      <p>{name}</p>
-      <button
-        onClick={useCallback<MouseEventHandler<HTMLButtonElement>>(
-          (event) => {
-            event.preventDefault();
-            signOut(auth);
-          },
-          [auth]
-        )}
-      >
-        Logout
-      </button>
+      {!name ? (
+        <button onClick={Login}>Login</button>
+      ) : (
+        <button onClick={Logout}>Logout</button>
+      )}
+      <p>{isLoading ? "Loading..." : name}</p>
     </div>
   );
 };
