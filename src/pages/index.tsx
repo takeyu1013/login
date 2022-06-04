@@ -8,14 +8,14 @@ import { AuthContext } from "./_app";
 const Home: NextPage = () => {
   const { auth, name, isLoading } = useContext(AuthContext);
   const provider = useMemo(() => new GoogleAuthProvider(), []);
-  const Login = useCallback<MouseEventHandler<HTMLButtonElement>>(
+  const login = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => {
       event.preventDefault();
       signInWithRedirect(auth, provider);
     },
     [auth, provider]
   );
-  const Logout = useCallback<MouseEventHandler<HTMLButtonElement>>(
+  const logout = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => {
       event.preventDefault();
       signOut(auth);
@@ -26,9 +26,9 @@ const Home: NextPage = () => {
   return (
     <div>
       {!name ? (
-        <button onClick={Login}>Login</button>
+        <button onClick={login}>Login</button>
       ) : (
-        <button onClick={Logout}>Logout</button>
+        <button onClick={logout}>Logout</button>
       )}
       <p>{isLoading ? "Loading..." : name}</p>
     </div>
