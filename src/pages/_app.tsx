@@ -6,18 +6,16 @@ import { createContext, FC, ReactNode, useEffect, useState } from "react";
 
 import { app } from "../firebase";
 
-type Name = User["displayName"];
-
 const CONTEXT: {
   auth: Auth;
-  name: Name;
+  name: User["displayName"];
 } = { auth: getAuth(app), name: null } as const;
 
 export const AuthContext = createContext(CONTEXT);
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { auth } = CONTEXT;
-  const [name, setName] = useState<Name>(CONTEXT.name);
+  const [name, setName] = useState(CONTEXT.name);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
