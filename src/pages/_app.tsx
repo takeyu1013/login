@@ -30,12 +30,12 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-function MyApp({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <AuthProvider>
       <Component {...pageProps} />
     </AuthProvider>
   );
-}
+};
 
-export default MyApp;
+export default App;
