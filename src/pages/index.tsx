@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
+import type { MouseEventHandler } from "react";
 
-import { useCallback, useMemo, MouseEventHandler, useContext } from "react";
+import { useCallback, useMemo, useContext } from "react";
 import { GoogleAuthProvider, signInWithRedirect, signOut } from "firebase/auth";
 
 import { AuthContext } from "./_app";
