@@ -3,10 +3,10 @@ import type { AppProps } from "next/app";
 import { createContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 
-const CONTEXT: Readonly<{
-  auth: SupabaseClient["auth"];
-  email: User["email"];
-}> = { auth: supabase.auth, email: undefined } as const;
+const CONTEXT: Readonly<Pick<SupabaseClient, "auth"> & Pick<User, "email">> = {
+  auth: supabase.auth,
+  email: undefined,
+};
 
 export const AuthContext = createContext(CONTEXT);
 
