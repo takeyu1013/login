@@ -6,13 +6,15 @@ import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 
 const Home: NextPage = () => {
-  const auth = supabase.auth;
+  const { auth } = supabase;
   const [email, setEmail] = useState<User["email"]>(undefined);
   useEffect(() => {
     auth.onAuthStateChange((_event, session) => {
-      setEmail(session && session.user ? session.user.email : undefined);
+      setEmail(session?.user?.email);
     });
-  });
+    const user = auth.user();
+    setEmail(user?.email);
+  }, [auth]);
   const login: MouseEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
       event.preventDefault();

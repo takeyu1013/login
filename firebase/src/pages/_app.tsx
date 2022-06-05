@@ -22,7 +22,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     setIsLoading(true);
     onAuthStateChanged(auth, (user) => {
-      setName(user ? user.displayName : null);
+      setName(user && user.displayName);
       setIsLoading(false);
     });
   }, [auth]);
