@@ -1,31 +1,32 @@
-import type { User } from "@supabase/supabase-js";
 import type { NextPage } from "next";
-import type { MouseEventHandler } from "react";
+import { useContext } from "react";
 
-import { useCallback, useEffect, useState } from "react";
-import { supabase } from "../utils/supabaseClient";
+import { AuthContext } from "./_app";
 
 const Home: NextPage = () => {
-  const { auth } = supabase;
-  const [email, setEmail] = useState<User["email"]>(undefined);
-  useEffect(() => {
-    auth.onAuthStateChange((_event, session) => {
-      setEmail(session?.user?.email);
-    });
-    const user = auth.user();
-    setEmail(user?.email);
-  }, [auth]);
-  const login: MouseEventHandler<HTMLButtonElement> = useCallback(
-    (event) => {
-      event.preventDefault();
-      auth.signIn({ provider: "google" });
-    },
-    [auth]
-  );
+  const { auth, email } = useContext(AuthContext);
 
   return (
     <div>
-      <button onClick={login}>Login</button>
+      {!email ? (
+        <button
+          onClick={(event) => {
+            event.preventDefault();
+            auth.signIn({ provider: "google" });
+          }}
+        >
+          Login
+        </button>
+      ) : (
+        <button
+          onClick={(event) => {
+            event.preventDefault();
+            auth.signOut();
+          }}
+        >
+          Logout
+        </button>
+      )}
       <p>{email}</p>
     </div>
   );
